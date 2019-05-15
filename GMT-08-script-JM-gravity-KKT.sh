@@ -1,7 +1,7 @@
 #!/bin/sh
 # Purpose: Gravity model map
 # Mercator projection (here: Kuril-Kamchatka Trench).
-# GMT modules: grd2cpt, grdimage, pscoast, psbasemap, psscale, psimage, logo, pstext
+# GMT modules: img2grd, grd2cpt, grdimage, pscoast, psbasemap, psscale, logo, pstext
 # Step-1. Generate a file
 ps=Grav_KKT.ps
 # Step-2. Extract subset of img file in Mercator or Geographic format
