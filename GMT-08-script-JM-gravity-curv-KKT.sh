@@ -1,7 +1,7 @@
 #!/bin/sh
 # Purpose: Vertical gravity model map
 # Mercator projection (here: Kuril-Kamchatka Trench).
-# GMT modules: img2grd, grd2cpt, grdimage, pscoast, psbasemap, psscale, logo, pstext
+# GMT modules: img2grd, grd2cpt, grdimage, pscoast, psbasemap, psscale, logo, pstext, psconvert
 # Step-1. Generate a file
 ps=Curv_KKT.ps
 # Step-2. Extract subset of img file in Mercator or Geographic format
@@ -43,7 +43,9 @@ gmt psscale -R -J -Ccurv.cpt \
 # Step-8. Add logo
 gmt logo -R -J -Dx6.5/-2.2+o0.1i/0.1i+w2c -O -K >> $ps
 # Step-9. Add subtitle
-gmt pstext -R0/10/0/15 -JX10/10 -X-2.5c -Y7.0c -N -O -K \
+gmt pstext -R0/10/0/15 -JX10/10 -X-2.5c -Y7.0c -N -O \
     -F+f10p,Palatino-Roman,black+jLB >> $ps << EOF
 3.0 15.0 Global free-air vertical gravity gradient grid: CryoSat-2 and Jason-1, 1 min resolution
 EOF
+# Step-10. Convert to image file using GhostScript (portrait orientation, 720 dpi)
+gmt psconvert Curv_KKT.ps -A0.2c -E720 -Tj -P -Z

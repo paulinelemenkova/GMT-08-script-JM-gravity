@@ -1,7 +1,7 @@
 #!/bin/sh
 # Purpose: Gravity model map
 # Mercator projection (here: Mariana Trench).
-# GMT modules: img2grd, grd2cpt, grdimage, pscoast, psbasemap, psscale, logo, pstext
+# GMT modules: img2grd, grd2cpt, grdimage, pscoast, psbasemap, psscale, logo, pstext, psconvert
 # Step-1. Generate a file
 ps=Grav_MT.ps
 # Step-2. Extract subset of img file in Mercator or Geographic format
@@ -32,7 +32,7 @@ gmt pscoast -R -J -P \
 gmt psbasemap -R -J \
     --FONT=8p,Palatino-Roman,dimgray \
     --MAP_ANNOT_OFFSET=0.15c \
-    -Tdg143/58.5+w0.5c+f2+l \
+    -Tdg156/4+w0.5c+f2+l \
     -Lx5.0i/-0.5i+c50+w800k+l"Mercator projection. Scale, km"+f \
     -UBL/-15p/-40p -O -K >> $ps
 # Step-7. Add color legend
@@ -47,7 +47,9 @@ gmt psscale -R -J -Cgrav.cpt \
 # Step-8. Add logo
 gmt logo -R -J -Dx6.5/-2.2+o0.1i/0.1i+w2c -O -K >> $ps
 # Step-9. Add subtitle
-gmt pstext -R0/10/0/15 -JX10/10 -X-1.0c -Y3.0c -N -O -K \
+gmt pstext -R0/10/0/15 -JX10/10 -X-1.0c -Y3.0c -N -O \
     -F+f10p,Palatino-Roman,black+jLB >> $ps << EOF
 3.0 15.0 Global gravity grid from CryoSat-2 and Jason-1, 1 min resolution
 EOF
+# Step-10. Convert to image file using GhostScript (portrait orientation, 720 dpi)
+gmt psconvert Grav_MT.ps -A0.2c -E720 -Tj -P -Z
